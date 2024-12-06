@@ -1,0 +1,20 @@
+{{- if .Values.api.IngressRoute.enable -}}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+  name: "{{ .Release.Name }}-api"
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`{{ default "" .Values.api.IngressRoute.host }}seazone.com.br`)
+    services:
+    - kind: Service
+      name: {{ .Release.Name }}
+      port: 80
+{{- end -}}

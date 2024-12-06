@@ -1,0 +1,16 @@
+name: Replace new application version
+on:
+  repository_dispatch:
+    types: [new_version]
+jobs:
+  replace-tag:
+    name: ChangeImageTag
+    permissions:
+      contents: read
+      id-token: write  
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/gitops-new-version-dispatch.yaml@main
+    with:
+      version: ${{ github.event.client_payload.version }}
+      environment: ${{ github.event.client_payload.env }}
+    secrets:
+      master-token: ${{ secrets.MASTER_TOKEN }}

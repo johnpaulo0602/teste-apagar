@@ -1,0 +1,18 @@
+name: Reboot Staging Pod
+on:
+  workflow_dispatch: {}
+jobs:
+  deploy-tag:
+    name: Deploy new image tag
+    permissions:
+      contents: read
+      id-token: write  
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/app-deploy-helm.yaml@main
+    with:
+      environment: 'staging'
+      app_name: 'reservas'
+      action: 'reboot'
+    secrets:
+      account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
+      account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
+      deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}

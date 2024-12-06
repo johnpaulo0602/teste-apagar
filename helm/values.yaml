@@ -1,0 +1,38 @@
+app:
+  environment: prod
+  name: template-gitops-wallet
+  serviceAccountRole: ""
+  image:
+    repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/governanca-front
+    tag: "0.0.2"
+    pullPolicy: IfNotPresent
+  
+  nodeAffinityName: "aplication"
+  hpa:
+    minReplicas: 3
+    maxReplicas: 5
+
+  ingress:
+    IngressRoute: false
+    host: "template-gitops-bff."
+
+  rollingUpdate:
+    maxSurge: 50%
+    maxUnavailable: 1
+
+  requests:
+    cpu: 200m
+    memory: 200M
+
+  limits:
+    cpu: 400m
+    memory: 400M
+
+  containerPort: 3000
+  grpcPort: 5000
+  healthcheckPath: /health
+
+  secret:
+  existSecret:
+  PodDisruptionBudget: true
+  minReadySeconds: 120

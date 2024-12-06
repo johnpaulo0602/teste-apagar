@@ -1,0 +1,26 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ default "worker-user" .Values.scheduler.name }}
+  labels:
+    app: {{ default "worker-user" .Values.scheduler.name }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ default "worker-user" .Values.scheduler.name }}
+  minReplicas: {{ .Values.scheduler.hpa.minReplicas }}
+  maxReplicas: {{ .Values.scheduler.hpa.maxReplicas }}
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70

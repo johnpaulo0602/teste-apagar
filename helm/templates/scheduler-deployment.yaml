@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ default "scheduler" .Values.scheduler.name }}
+  labels:
+    app: {{ default "scheduler" .Values.scheduler.name }}
+spec:
+  replicas: {{ default 1 .Values.scheduler.hpa.minReplicas }}
+  selector:
+    matchLabels:
+      app: {{ default "scheduler" .Values.scheduler.name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.global.rollingUpdate.maxSurge }} # Define o número máximo de Pods excedentes
+      maxUnavailable: {{ .Values.global.rollingUpdate.maxUnavailable }} # Define o númo máximo de Pods indisponíveis
+    type: RollingUpdate
+  minReadySeconds: {{ .Values.global.minReadySeconds }} # Os Pods antigos ainda estarão em execução quando o novo Pod for estabelecido. Após 120s os Pods antigos serão mortos
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: {{ default "scheduler" .Values.scheduler.name }}
+        release: {{ default "scheduler" .Values.scheduler.name }}
+      annotations:
+        timestamp: {{ now | quote }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ default "scheduler" .Values.scheduler.name }} # Opcionalmente meus pods irão rodar em nodes diferentes.
+              topologyKey: kubernetes.io/hostname # Uma label que exista nos nodes.
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "karpenter.sh/capacity-type"
+                  operator: In
+                  values:
+                    - "spot"
+                - key: "karpenter.sh/nodepool"
+                  operator: In
+                  values:
+                    - {{ .Values.global.nodeAffinityName }}
+                - key: "kubernetes.io/arch"
+                  operator: In
+                  values:
+                    - "amd64"
+      terminationGracePeriodSeconds: 60 # Aguarda que o pod seja finalizado em até 60s.
+      priorityClassName: system-cluster-critical
+      containers:
+      - name: {{ default "scheduler" .Values.scheduler.name }}
+        image: {{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}
+        command: ["./run.sh", "scheduler"]
+        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+        resources:
+          requests:
+            cpu: {{ .Values.scheduler.requests.cpu }}
+            memory: {{ .Values.scheduler.requests.memory }}
+          limits:
+            cpu: {{ .Values.scheduler.limits.cpu }}
+            memory: {{ .Values.scheduler.limits.memory }}
+        ports:
+        - containerPort: {{ .Values.scheduler.containerPort }}
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: {{ .Values.scheduler.healthcheckPath }}
+            port: {{ .Values.scheduler.containerPort }}
+          initialDelaySeconds: 60 # Aguarda 60s para fazer a primeira checagem
+          timeoutSeconds: 30 # Timeout máximo de 1s
+          periodSeconds: 30 # Faz a checagem a cada 60s
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: {{ .Values.scheduler.healthcheckPath }}
+            port: {{ .Values.scheduler.containerPort }}
+          initialDelaySeconds: 60 # Aguarda 60s para fazer a primeira checagem
+          timeoutSeconds: 30 # Timeout máximo de 1s
+          periodSeconds: 30 # Faz a checagem a cada 60s
+

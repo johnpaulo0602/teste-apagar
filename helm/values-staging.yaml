@@ -1,0 +1,84 @@
+global:
+  environment: staging
+ 
+  rollingUpdate:
+    maxSurge: 50%
+    maxUnavailable: 0
+    serviceAccountRole: ""
+  
+  minReadySeconds: 120
+  
+  image:
+    repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/reservas-stg
+    tag: "0.0.2"
+    pullPolicy: IfNotPresent
+
+  nodeAffinityName: "monitoring"
+
+api:
+  name: api-seazone-reservas
+
+  requests:
+    cpu: 200m
+    memory: 200M
+
+  limits:
+    cpu: 400m
+    memory: 400Mi
+  containerPort: 3000
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 1
+
+  IngressRoute:
+    enable: true
+    host: "stg-api-cluster."
+
+workerUser:
+  name: worker-user-seazone-reservas
+
+  requests:
+    cpu: 200m
+    memory: 200Mi
+
+  limits:
+    cpu: 400m
+    memory: 400Mi
+  containerPort: 3000
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 1
+
+worker:
+  name: worker-seazone-reservas
+
+  requests:
+    cpu: 200m
+    memory: 200M
+
+  limits:
+    cpu: 400m
+    memory: 400Mi
+  containerPort: 3000
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 1
+
+scheduler:
+  name: scheduler-seazone-reservas
+
+  requests:
+    cpu: 200m
+    memory: 200M
+
+  limits:
+    cpu: 400m
+    memory: 400Mi
+  containerPort: 3000
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 1

@@ -1,0 +1,1 @@
+A aplicação {{ .Release.Name }} foi deployada com sucesso!

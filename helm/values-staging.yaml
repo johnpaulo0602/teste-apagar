@@ -10,7 +10,7 @@ global:
   
   image:
     repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/reservas-stg
-    tag: "0.0.2"
+    tag: "0.26.5-rc.3"
     pullPolicy: IfNotPresent
 
   nodeAffinityName: "monitoring"

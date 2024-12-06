@@ -4,7 +4,7 @@ global:
   rollingUpdate:
     maxSurge: 50%
     maxUnavailable: 0
-    serviceAccountRole: ""
+    serviceAccountRole: "arn:aws:iam::017820684017:role/reservas"
   
   minReadySeconds: 120
   

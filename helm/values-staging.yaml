@@ -7,7 +7,7 @@ global:
     serviceAccountRole: "arn:aws:iam::017820684017:role/reservas"
 
   minReadySeconds: 120
-  
+
   image:
     repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
     tag: "0.26.5-rc.5"

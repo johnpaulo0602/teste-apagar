@@ -17,7 +17,7 @@ global:
 
 api:
   name: api-seazone-reservas
-
+ 
   requests:
     cpu: 200m
     memory: 200Mi

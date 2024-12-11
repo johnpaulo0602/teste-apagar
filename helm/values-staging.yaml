@@ -25,7 +25,7 @@ api:
   limits:
     cpu: 400m
     memory: 400Mi
-  containerPort: 3000
+  containerPort: 8001
   healthcheckPath: /health
   hpa:
     minReplicas: 1

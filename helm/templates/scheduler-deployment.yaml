@@ -67,6 +67,9 @@ spec:
           limits:
             cpu: {{ .Values.scheduler.limits.cpu }}
             memory: {{ .Values.scheduler.limits.memory }}
+        env:
+          - name: SERVICE
+            value: "scheduler"
         ports:
         - containerPort: {{ .Values.scheduler.containerPort }}
         readinessProbe:

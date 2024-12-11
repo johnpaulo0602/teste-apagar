@@ -53,7 +53,6 @@ spec:
                   operator: In
                   values:
                     - "amd64"
-
       terminationGracePeriodSeconds: 60 # Aguarda que o pod seja finalizado em até 60s.
       priorityClassName: system-cluster-critical
       containers:
@@ -68,6 +67,9 @@ spec:
           limits:
             cpu: {{ .Values.worker.limits.cpu }}
             memory: {{ .Values.worker.limits.memory }}
+        env:
+          - name: SERVICE
+            value: "worker"
         ports:
         - containerPort: {{ .Values.worker.containerPort }}
         readinessProbe:

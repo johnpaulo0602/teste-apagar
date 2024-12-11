@@ -67,6 +67,9 @@ spec:
           limits:
             cpu: {{ .Values.api.limits.cpu }}
             memory: {{ .Values.api.limits.memory }}
+        env:
+          - name: SERVICE
+            value: "api_prod"
         ports:
         - containerPort: {{ .Values.api.containerPort }}
         readinessProbe:

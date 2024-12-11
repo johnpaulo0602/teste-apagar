@@ -14,7 +14,7 @@ global:
     pullPolicy: IfNotPresent
 
   nodeAffinityName: "monitoring"
-
+   
 api:
   name: api-seazone-reservas
 

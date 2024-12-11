@@ -33,5 +33,5 @@ provider "aws" {
 }
 
 provider "cloudflare" {
-  api_token = ""
+  api_token = "XHxPG1ryBTCMWVbvdDElwDv3aWs8XaMT_3OKmCjV"
 }

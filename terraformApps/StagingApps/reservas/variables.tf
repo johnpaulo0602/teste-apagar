@@ -1,5 +1,5 @@
 variable "app_name" {
-  default = "reservas-stg"
+  default = "seazone-reservas-api"
 }
 
 variable "dns_name" {
@@ -11,15 +11,19 @@ variable "zone_id" {
 }
 
 variable "bucket_name_ranking" {
-  default = "seazone-reservas-properties-ranking-dev"
+  default = "seazone-reservas-properties-ranking-stg"
 }
 
 variable "bucket_name_seo" {
-  default = "seazone-reservas-seo-page-info"
+  default = "seazone-reservas-seo-page-info-stg"
 }
 
 variable "bucket_name_hotels" {
-  default = "seazone-reservas-google-hotels-properties-feed-dev"
+  default = "seazone-reservas-google-hotels-properties-feed-stg"
+}
+
+variable "bucket_name_acomodations" {
+  default = "seazone-reservas-referral-acommodations-stg"
 }
 
 variable "project" {

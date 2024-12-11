@@ -77,3 +77,65 @@ resource "aws_s3_bucket" "hotels" {
     Projeto = var.project
   }
 }
+
+resource "aws_s3_bucket" "acommodations" {
+  bucket = var.bucket_name_acomodations
+
+  tags = {
+    Name        = var.bucket_name_acomodations
+    Environment = var.environment
+    Projeto = var.project
+  }
+}
+
+data "aws_iam_openid_connect_provider" "this" {
+  arn = "arn:aws:iam::017820684017:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/44B2CCB1FAD61DA3B02BA0D09FE5D1E4"
+}
+
+
+data "aws_iam_policy_document" "this" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Federated"
+      identifiers = [data.aws_iam_openid_connect_provider.this.arn]
+    }
+    condition {
+      test     = "ForAnyValue:StringEquals"
+      variable = format( "%s:sub" ,data.aws_iam_openid_connect_provider.this.url)
+      values   = ["system:serviceaccount:apps:reservas"]
+    }
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+  }
+  depends_on = [ data.aws_iam_openid_connect_provider.this ]
+}
+
+resource "aws_iam_policy" "s3" {
+  name = "seazoneReservas"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action   = [
+			    "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:DeleteObject",
+                "s3:GetObjectTagging",
+                "s3:PutObjectTagging"
+				]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role" "this" {
+
+  name        = "reservas"
+  assume_role_policy   = join("", data.aws_iam_policy_document.this.*.json)
+  managed_policy_arns = [aws_iam_policy.s3.arn]
+}

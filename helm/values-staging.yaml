@@ -33,7 +33,7 @@ api:
 
   IngressRoute:
     enable: true
-    host: "stg-api-cluster."
+    host: "api-stg-test."
 
 workerUser:
   name: worker-user-seazone-reservas

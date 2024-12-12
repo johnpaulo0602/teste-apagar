@@ -15,6 +15,6 @@ spec:
     match: Host(`{{ default "" .Values.api.IngressRoute.host }}seazone.com.br`)
     services:
     - kind: Service
-      name: {{ .Release.Name }}
+      name: {{ .Values.api.IngressRoute.serviceName }}
       port: 80
 {{- end -}}

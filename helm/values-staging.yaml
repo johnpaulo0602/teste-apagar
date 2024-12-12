@@ -13,7 +13,7 @@ global:
     tag: "0.27.0-rc.3"
     pullPolicy: IfNotPresent
 
-  nodeAffinityName: "monitoring"
+  nodeAffinityName: "apps"
 
 api:
   name: api-seazone-reservas

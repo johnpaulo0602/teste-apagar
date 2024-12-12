@@ -69,6 +69,8 @@ spec:
         env:
           - name: SERVICE
             value: "api_prod"
+          - name: TRACE_SERVICE_NAME
+            value: "seazone-reservas-api-staging-cluster"
         ports:
         - containerPort: {{ .Values.api.containerPort }}
         readinessProbe:

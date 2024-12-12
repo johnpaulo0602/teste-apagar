@@ -69,6 +69,8 @@ spec:
         env:
           - name: SERVICE
             value: "worker"
+          - name: TRACE_SERVICE_NAME
+            value: "seazone-reservas-worker-staging-cluster"
         ports:
         - containerPort: {{ .Values.worker.containerPort }}
         readinessProbe:

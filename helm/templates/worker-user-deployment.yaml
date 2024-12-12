@@ -58,10 +58,6 @@ spec:
       containers:
       - name: {{ default "worker-user" .Values.workerUser.name }}
         image: {{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}
-        args:
-        - /bin/sh
-        - -c
-        - touch /tmp/healthy;
         imagePullPolicy: {{ .Values.global.imagePullPolicy }}
         resources:
           requests:

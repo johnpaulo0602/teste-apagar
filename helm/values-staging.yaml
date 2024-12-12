@@ -19,12 +19,12 @@ api:
   name: api-seazone-reservas
 
   requests:
-    cpu: 200m
-    memory: 200Mi
+    cpu: 500m
+    memory: 1G
    
   limits:
-    cpu: 400m
-    memory: 400Mi
+    cpu: 700m
+    memory: 2G
   containerPort: 8001
   healthcheckPath: /health
   hpa:
@@ -40,12 +40,12 @@ workerUser:
   name: worker-user-seazone-reservas
 
   requests:
-    cpu: 200m
-    memory: 200Mi
-
+    cpu: 500m
+    memory: 1G
+   
   limits:
-    cpu: 400m
-    memory: 400Mi
+    cpu: 700m
+    memory: 2G
   containerPort: 8001
   healthcheckPath: /health
   hpa:
@@ -56,12 +56,12 @@ worker:
   name: worker-seazone-reservas
 
   requests:
-    cpu: 200m
-    memory: 200Mi
-
+    cpu: 500m
+    memory: 1G
+   
   limits:
-    cpu: 400m
-    memory: 400Mi
+    cpu: 700m
+    memory: 2G
   containerPort: 8001
   healthcheckPath: /health
   hpa:

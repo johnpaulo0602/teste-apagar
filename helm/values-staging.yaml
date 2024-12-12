@@ -28,8 +28,8 @@ api:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 3
-    maxReplicas: 10
+    minReplicas: 1
+    maxReplicas: 1
 
   IngressRoute:
     enable: true
@@ -49,8 +49,8 @@ workerUser:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 3
-    maxReplicas: 10
+    minReplicas: 1
+    maxReplicas: 1
 
 worker:
   name: worker-seazone-reservas
@@ -65,8 +65,8 @@ worker:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 3
-    maxReplicas: 10
+    minReplicas: 2
+    maxReplicas: 3
 
 scheduler:
   name: scheduler-seazone-reservas

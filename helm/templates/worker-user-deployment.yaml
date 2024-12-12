@@ -75,7 +75,7 @@ spec:
           failureThreshold: 3
           exec:
             command:
-            - cat
+            - rm
             - /tmp/healthy
           initialDelaySeconds: 60 # Aguarda 60s para fazer a primeira checagem
           timeoutSeconds: 30 # Timeout máximo de 1s
@@ -84,7 +84,7 @@ spec:
           failureThreshold: 3
           exec:
             command:
-            - cat
+            - rm
             - /tmp/healthy
           initialDelaySeconds: 60 # Aguarda 60s para fazer a primeira checagem
           timeoutSeconds: 30 # Timeout máximo de 1s

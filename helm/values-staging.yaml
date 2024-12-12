@@ -33,6 +33,7 @@ api:
 
   IngressRoute:
     enable: true
+    serviceName: "api-seazone-reservas"
     host: "api-stg-test."
 
 workerUser:

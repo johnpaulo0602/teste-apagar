@@ -73,17 +73,19 @@ spec:
         - containerPort: {{ .Values.scheduler.containerPort }}
         readinessProbe:
           failureThreshold: 3
-          httpGet:
-            path: {{ .Values.scheduler.healthcheckPath }}
-            port: {{ .Values.scheduler.containerPort }}
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
           initialDelaySeconds: 60 # Aguarda 60s para fazer a primeira checagem
           timeoutSeconds: 30 # Timeout máximo de 1s
           periodSeconds: 30 # Faz a checagem a cada 60s
         livenessProbe:
           failureThreshold: 3
-          httpGet:
-            path: {{ .Values.scheduler.healthcheckPath }}
-            port: {{ .Values.scheduler.containerPort }}
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
           initialDelaySeconds: 60 # Aguarda 60s para fazer a primeira checagem
           timeoutSeconds: 30 # Timeout máximo de 1s
           periodSeconds: 30 # Faz a checagem a cada 60s

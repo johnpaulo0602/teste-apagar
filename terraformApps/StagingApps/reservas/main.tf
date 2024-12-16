@@ -137,5 +137,62 @@ resource "aws_iam_role" "this" {
 
   name        = "reservas"
   assume_role_policy   = join("", data.aws_iam_policy_document.this.*.json)
-  managed_policy_arns = [aws_iam_policy.s3.arn]
+  managed_policy_arns = [aws_iam_policy.s3.arn,"arn:aws:iam::aws:policy/AmazonSSMFullAccess"]
+}
+
+resource "aws_ses_domain_identity" "this" {
+  domain = var.domain
+}
+
+resource "aws_ses_domain_mail_from" "this" {
+  domain           = aws_ses_domain_identity.this.domain
+  mail_from_domain = "no-reply-web-stg.${aws_ses_domain_identity.this.domain}"
+}
+
+module "db" {
+  source = "terraform-aws-modules/rds/aws"
+
+  identifier = var.identifier
+
+  engine            = var.engine
+  engine_version    = var.engine_version
+  instance_class    = var.instance_class
+  allocated_storage = var.allocated_storage
+  max_allocated_storage = var.max_allocated_storage
+  storage_type = var.storage_type
+  db_name  = var.db_name
+  username = var.username
+  port     = var.port
+
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
+
+  vpc_security_group_ids = var.vpc_security_group_ids
+
+  maintenance_window = var.maintenance_window
+  backup_window      = var.backup_window
+
+  # Enhanced Monitoring - see example for details on how to create the role
+  # by yourself, in case you don't want to create it automatically
+  monitoring_interval    = var.monitoring_interval
+  monitoring_role_name   = var.identifier
+  create_monitoring_role = var.create_monitoring_role
+  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_retention_period = var.performance_insights_retention_period
+
+  tags = var.DEFAULT_TAGS
+
+  # DB subnet group
+  create_db_subnet_group = var.create_db_subnet_group
+  subnet_ids             = var.subnets_ids
+  publicly_accessible = var.publicly_accessible
+  # Database Deletion Protection
+  backup_retention_period = var.backup_retention_period
+  deletion_protection = var.deletion_protection
+
+  create_db_option_group    = var.create_db_option_group
+  family = var.family
+  db_subnet_group_name = var.identifier
+  create_db_parameter_group = var.create_db_parameter_group
+  parameter_group_name = var.identifier
+
 }

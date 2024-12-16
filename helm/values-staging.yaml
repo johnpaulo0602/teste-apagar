@@ -9,7 +9,7 @@ global:
   minReadySeconds: 120
 
   image:
-    repository: 117820684017.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
+    repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
     tag: "0.27.0-rc.3"
     pullPolicy: IfNotPresent
 

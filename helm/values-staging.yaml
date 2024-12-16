@@ -3,13 +3,13 @@ global:
  
   rollingUpdate:
     maxSurge: 50%
-    maxUnavailable: 0
+    maxUnavailable: 1
     serviceAccountRole: "arn:aws:iam::017820684017:role/reservas"
 
   minReadySeconds: 120
 
   image:
-    repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
+    repository: 117820684017.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
     tag: "0.27.0-rc.3"
     pullPolicy: IfNotPresent
 
@@ -28,8 +28,8 @@ api:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 0
-    maxReplicas: 0
+    minReplicas: 1
+    maxReplicas: 2
 
   IngressRoute:
     enable: true
@@ -49,8 +49,8 @@ workerUser:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 0
-    maxReplicas: 0
+    minReplicas: 1
+    maxReplicas: 2
 
 worker:
   name: worker-seazone-reservas
@@ -65,8 +65,8 @@ worker:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 0
-    maxReplicas: 0
+    minReplicas: 1
+    maxReplicas: 2
 
 scheduler:
   name: scheduler-seazone-reservas
@@ -81,5 +81,5 @@ scheduler:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 0
-    maxReplicas: 0
+    minReplicas: 1
+    maxReplicas: 2

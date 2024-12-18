@@ -1,38 +1,85 @@
-app:
-  environment: prod
-  name: template-gitops-wallet
-  serviceAccountRole: ""
-  image:
-    repository: 017820684017.dkr.ecr.us-west-2.amazonaws.com/governanca-front
-    tag: "0.0.2"
-    pullPolicy: IfNotPresent
-  
-  nodeAffinityName: "aplication"
-  hpa:
-    minReplicas: 3
-    maxReplicas: 5
-
-  ingress:
-    IngressRoute: false
-    host: "template-gitops-bff."
-
+global:
+  environment: production
+ 
   rollingUpdate:
     maxSurge: 50%
     maxUnavailable: 1
+    serviceAccountRole: "arn:aws:iam::711387131913:role/reservas"
+
+  minReadySeconds: 120
+
+  image:
+    repository: 711387131913.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
+    tag: "0.27.0"
+    pullPolicy: IfNotPresent
+
+  nodeAffinityName: "apps"
+
+api:
+  name: api-seazone-reservas
+
+  requests:
+    cpu: 500m
+    memory: 1G
+   
+  limits:
+    cpu: 700m
+    memory: 2G
+  containerPort: 8001
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+
+  IngressRoute:
+    enable: true
+    serviceName: "api-seazone-reservas"
+    host: "api-test."
+
+workerUser:
+  name: worker-user-seazone-reservas
+
+  requests:
+    cpu: 500m
+    memory: 1G
+   
+  limits:
+    cpu: 700m
+    memory: 2G
+  containerPort: 8001
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+
+worker:
+  name: worker-seazone-reservas
+
+  requests:
+    cpu: 500m
+    memory: 1G
+   
+  limits:
+    cpu: 700m
+    memory: 2G
+  containerPort: 8001
+  healthcheckPath: /health
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+
+scheduler:
+  name: scheduler-seazone-reservas
 
   requests:
     cpu: 200m
-    memory: 200M
+    memory: 200Mi
 
   limits:
     cpu: 400m
-    memory: 400M
-
-  containerPort: 3000
-  grpcPort: 5000
+    memory: 400Mi
+  containerPort: 8001
   healthcheckPath: /health
-
-  secret:
-  existSecret:
-  PodDisruptionBudget: true
-  minReadySeconds: 120
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2

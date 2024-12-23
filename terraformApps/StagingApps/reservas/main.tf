@@ -11,7 +11,7 @@ resource "cloudflare_record" "this" {
   name    = var.dns_name
   content = data.aws_lb.this.dns_name
   type    = "CNAME"
-  ttl     = 3600
+  ttl     = 60
   allow_overwrite = true
 }
 
@@ -149,6 +149,43 @@ resource "aws_ses_domain_mail_from" "this" {
   mail_from_domain = "no-reply-web-stg.${aws_ses_domain_identity.this.domain}"
 }
 
+resource "aws_ses_domain_dkim" "this" {
+  domain = aws_ses_domain_identity.this.domain
+}
+
+output "dkim"{
+  value = aws_ses_domain_dkim.this.dkim_tokens
+}
+
+resource "cloudflare_record" "dkim" {
+  count   = 3 
+  zone_id = var.zone_id
+  name    = "${aws_ses_domain_dkim.this.dkim_tokens[count.index]}"
+  content = "${aws_ses_domain_dkim.this.dkim_tokens[count.index]}.dkim.amazonses.com"
+  type    = "CNAME"
+  ttl     = 600
+  allow_overwrite = true
+}
+
+resource "cloudflare_record" "mail_from_mx" {
+  zone_id = var.zone_id
+  name    = aws_ses_domain_mail_from.this.mail_from_domain
+  content = "feedback-smtp.us-east-1.amazonses.com"
+  type    = "MX"
+  priority = 10
+  ttl     = 600
+  allow_overwrite = true
+}
+
+# resource "cloudflare_record" "mail_from_txt" {
+#   zone_id = var.zone_id
+#   name    = "no-reply-web-stg"
+#   content = "v=spf1 include:amazonses.com ~all"
+#   type    = "CNAME"
+#   ttl     = 600
+#   allow_overwrite = true
+# }
+
 module "db" {
   source = "terraform-aws-modules/rds/aws"
 
@@ -195,4 +232,77 @@ module "db" {
   create_db_parameter_group = var.create_db_parameter_group
   parameter_group_name = var.identifier
 
+}
+
+module "lambda_function_existing_package_from_remote_url" {
+  source = "terraform-aws-modules/lambda/aws"
+  for_each = var.lambdas
+  function_name = each.value.function_name
+  description   = each.value.description
+  handler       = each.value.handler
+  runtime       = each.value.runtime
+
+  create_package         = each.value.create_package
+  local_existing_package = each.value.local_existing_package
+}
+
+# locals {
+#   ses = aws_ses_domain_identity.this.arn
+  
+# }
+
+module "sns_topic" {
+  source  = "terraform-aws-modules/sns/aws"
+
+  name  = "sns-email-delivery-bounce-complaint"
+
+  # topic_policy_statements = {
+  #   pub = {
+  #     actions = ["sns:Publish"]
+  #     principals = [{
+  #       type        = "AWS"
+  #       identifiers = ["*"]
+  #     }]
+  #   },
+
+  #   sub = {
+  #     actions = [
+  #       "sns:Subscribe",
+  #       "sns:Receive",
+  #     ]
+
+  #     principals = [{
+  #       type        = "AWS"
+  #       identifiers = ["*"]
+  #     }]
+
+  #     conditions = [{
+  #       test     = "StringLike"
+  #       variable = "sns:Endpoint"
+  #       values   = ["arn:aws:sqs:eu-west-1:11111111111:subscriber"]
+  #     }]
+  #   }
+  # }
+
+  subscriptions = {
+    delivery = {
+      protocol = "lambda"
+      endpoint = "arn:aws:lambda:us-west-2:017820684017:function:ses-delivery-logging-LambdaFunction"
+    },
+    complaint = {
+      protocol = "lambda"
+      endpoint = "arn:aws:lambda:us-west-2:017820684017:function:ses-complaint-logging-LambdaFunction"
+    },
+    bounce = {
+      protocol = "lambda"
+      endpoint = "arn:aws:lambda:us-west-2:017820684017:function:ses-bounce-logging-LambdaFunction"
+    }
+
+  }
+
+  tags = {
+    Environment = "staging"
+    Projetc = "reservas"
+    Terraform   = "true"
+  }
 }

@@ -148,6 +148,13 @@ variable "create_db_subnet_group" {
   type = bool
 }
 
+variable "create_db_subnet_group_replica" {
+  description = "Whether to create a database subnet group"
+  default     = false
+  type = bool
+}
+
+
 variable "vpc_security_group_ids" {
   description = "List of VPC security groups to associate"
   default     = ["sg-05a6c2ee9ecf37e19"]
@@ -191,9 +198,53 @@ variable "backup_retention_period" {
   type = number
 }
 
+variable "backup_retention_period_replica" {
+  description = "The days to retain backups for"
+  default     = 0
+  type = number
+}
 variable "family" {
   description = "The family of the DB parameter group"
   default     = "postgres15"
   type = string
 }
+
+variable "lambdas" {
+  default ={
+  bounce = {
+    function_name = "ses-bounce-logging-LambdaFunction",
+    description = "description",
+    handler = "index.lambda_handler",
+    runtime = "python3.8",
+    create_package = false,
+    local_existing_package = "./scripts/index.zip"
+  },
+  complaint = {
+    function_name = "ses-complaint-logging-LambdaFunction",
+    description = "description",
+    handler = "index.lambda_handler",
+    runtime = "python3.8",
+    create_package = false,
+    local_existing_package = "./scripts/index.zip"
+  },
+  delivery = {
+    function_name = "ses-delivery-logging-LambdaFunction",
+    description = "description",
+    handler = "index.lambda_handler",
+    runtime = "python3.8",
+    create_package = false,
+    local_existing_package = "./scripts/index.zip"
+  }
+  }
+  type = map(object({
+    function_name = string,
+    description = string,
+    handler = string,
+    runtime = string,
+    create_package = bool,
+    local_existing_package = string
+  }))
+}
+
+
 

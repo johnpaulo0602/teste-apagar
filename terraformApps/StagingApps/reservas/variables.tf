@@ -197,3 +197,41 @@ variable "family" {
   type = string
 }
 
+variable "lambdas" {
+  default ={
+  bounce = {
+    function_name = "ses-bounce-logging-LambdaFunction",
+    description = "description",
+    handler = "index.lambda_handler",
+    runtime = "python3.8",
+    create_package = false,
+    local_existing_package = "./scripts/index.zip"
+  },
+  complaint = {
+    function_name = "ses-complaint-logging-LambdaFunction",
+    description = "description",
+    handler = "index.lambda_handler",
+    runtime = "python3.8",
+    create_package = false,
+    local_existing_package = "./scripts/index.zip"
+  },
+  delivery = {
+    function_name = "ses-delivery-logging-LambdaFunction",
+    description = "description",
+    handler = "index.lambda_handler",
+    runtime = "python3.8",
+    create_package = false,
+    local_existing_package = "./scripts/index.zip"
+  }
+  }
+  type = map(object({
+    function_name = string,
+    description = string,
+    handler = string,
+    runtime = string,
+    create_package = bool,
+    local_existing_package = string
+  }))
+}
+
+

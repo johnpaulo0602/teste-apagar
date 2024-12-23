@@ -28,13 +28,13 @@ api:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 3
-    maxReplicas: 4
+    minReplicas: 1
+    maxReplicas: 2
 
   IngressRoute:
     enable: true
     serviceName: "api-seazone-reservas"
-    host: "api-stg-test."
+    host: "api-staging."
 
 workerUser:
   name: worker-user-seazone-reservas
@@ -49,8 +49,8 @@ workerUser:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 3
-    maxReplicas: 4
+    minReplicas: 1
+    maxReplicas: 2
 
 worker:
   name: worker-seazone-reservas
@@ -65,8 +65,8 @@ worker:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 3
-    maxReplicas: 4
+    minReplicas: 2
+    maxReplicas: 3
 
 scheduler:
   name: scheduler-seazone-reservas

@@ -80,8 +80,6 @@ scheduler:
     memory: 400Mi
   containerPort: 8001
   healthcheckPath: /health
-
-  secret:
-  existSecret:
-  PodDisruptionBudget: true
-  minReadySeconds: 120
+  hpa:
+    minReplicas: 1
+    maxReplicas: 1

@@ -34,7 +34,7 @@ api:
   IngressRoute:
     enable: true
     serviceName: "api-seazone-reservas"
-    host: "api-test."
+    host: "api."
 
 workerUser:
   name: worker-user-seazone-reservas

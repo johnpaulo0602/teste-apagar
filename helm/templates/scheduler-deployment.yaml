@@ -70,7 +70,7 @@ spec:
           - name: SERVICE
             value: "scheduler"
           - name: TRACE_SERVICE_NAME
-            value: "seazone-reservas-scheduler-staging-cluster"
+            value: "seazone-reservas-scheduler-cluster"
         ports:
         - containerPort: {{ .Values.scheduler.containerPort }}
         readinessProbe:

@@ -70,7 +70,7 @@ spec:
           - name: SERVICE
             value: "api_prod"
           - name: TRACE_SERVICE_NAME
-            value: "seazone-reservas-api-staging-cluster"
+            value: "seazone-reservas-api-cluster"
         ports:
         - containerPort: {{ .Values.api.containerPort }}
         readinessProbe:

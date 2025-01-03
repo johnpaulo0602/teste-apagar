@@ -70,7 +70,7 @@ spec:
           - name: SERVICE
             value: "worker"
           - name: TRACE_SERVICE_NAME
-            value: "seazone-reservas-worker-staging-cluster"
+            value: "seazone-reservas-worker-cluster"
         ports:
         - containerPort: {{ .Values.worker.containerPort }}
         readinessProbe:

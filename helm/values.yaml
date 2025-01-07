@@ -19,17 +19,17 @@ api:
   name: api-seazone-reservas
 
   requests:
-    cpu: 500m
-    memory: 1G
+    cpu: 400m
+    memory: 600Mi
    
   limits:
-    cpu: 700m
-    memory: 2G
+    cpu: 600m
+    memory: 800Mi
   containerPort: 8001
   healthcheckPath: /health
   hpa:
     minReplicas: 4
-    maxReplicas: 7
+    maxReplicas: 8
 
   IngressRoute:
     enable: true
@@ -40,44 +40,44 @@ workerUser:
   name: worker-user-seazone-reservas
 
   requests:
-    cpu: 500m
-    memory: 1G
+    cpu: 450m
+    memory: 200Mi
    
   limits:
-    cpu: 700m
-    memory: 2G
+    cpu: 650m
+    memory: 400Mi
   containerPort: 8001
   healthcheckPath: /health
   hpa:
     minReplicas: 3
-    maxReplicas: 5
+    maxReplicas: 6
 
 worker:
   name: worker-seazone-reservas
 
   requests:
-    cpu: 500m
-    memory: 1G
+    cpu: 800m
+    memory: 500Mi
    
   limits:
-    cpu: 700m
-    memory: 2G
+    cpu: 1200m
+    memory: 1g
   containerPort: 8001
   healthcheckPath: /health
   hpa:
     minReplicas: 4
-    maxReplicas: 7
+    maxReplicas: 10
 
 scheduler:
   name: scheduler-seazone-reservas
 
   requests:
-    cpu: 200m
-    memory: 200Mi
+    cpu: 50m
+    memory: 150Mi
 
   limits:
-    cpu: 400m
-    memory: 400Mi
+    cpu: 150m
+    memory: 250Mi
   containerPort: 8001
   healthcheckPath: /health
   hpa:

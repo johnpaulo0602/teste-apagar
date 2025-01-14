@@ -65,8 +65,8 @@ worker:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 4
-    maxReplicas: 14
+    minReplicas: 3
+    maxReplicas: 9
 
 scheduler:
   name: scheduler-seazone-reservas

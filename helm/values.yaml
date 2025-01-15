@@ -61,7 +61,7 @@ worker:
    
   limits:
     cpu: 1200m
-    memory: 1g
+    memory: 1G
   containerPort: 8001
   healthcheckPath: /health
   hpa:

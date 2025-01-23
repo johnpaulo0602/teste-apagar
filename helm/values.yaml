@@ -81,5 +81,5 @@ scheduler:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 2
-    maxReplicas: 3
+    minReplicas: 1
+    maxReplicas: 1

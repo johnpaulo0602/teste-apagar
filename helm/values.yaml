@@ -57,11 +57,11 @@ worker:
 
   requests:
     cpu: 800m
-    memory: 500Mi
+    memory: 1G
    
   limits:
     cpu: 1200m
-    memory: 1G
+    memory: 2G
   containerPort: 8001
   healthcheckPath: /health
   hpa:

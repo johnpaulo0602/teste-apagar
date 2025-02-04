@@ -3,7 +3,7 @@ variable "app_name" {
 }
 
 variable "dns_name" {
-  default= "api-stg-test"
+  default= "api-staging"
 }
 
 variable "zone_id" {

@@ -58,6 +58,11 @@ variable "identifier" {
 
 variable "instance_class" {
   description = "The instance type of the RDS instance"
+  default     = "db.t3.medium"
+}
+
+variable "instance_class_replica" {
+  description = "The instance type of the RDS instance"
   default     = "db.t3.small"
 }
 

@@ -2,8 +2,8 @@ global:
   environment: production
  
   rollingUpdate:
-    maxSurge: 50%
-    maxUnavailable: 1
+    maxSurge: 25%
+    maxUnavailable: 25%
     serviceAccountRole: "arn:aws:iam::711387131913:role/reservas"
 
   minReadySeconds: 120

@@ -10,7 +10,7 @@ global:
 
   image:
     repository: 711387131913.dkr.ecr.us-west-2.amazonaws.com/seazone-reservas-api
-    tag: "0.38.11"
+    tag: "0.38.12"
     pullPolicy: IfNotPresent
 
   nodeAffinityName: "apps"

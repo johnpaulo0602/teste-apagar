@@ -16,7 +16,7 @@ global:
   nodeAffinityName: "apps"
 
 api:
-  name: api-seazone-reservas
+  name: reservas
 
   requests:
     cpu: 500m

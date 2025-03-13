@@ -1,4 +1,4 @@
-name: Scale Staging Application
+name: Scale Staging Api
 on:
   workflow_dispatch:
     inputs:
@@ -11,14 +11,14 @@ jobs:
     name: Scale Application Deployment
     permissions:
       contents: read
-      id-token: write  
+      id-token: write
     uses: seazone-tech/governanca-workflows-template/.github/workflows/app-eks-management.yaml@main
     with:
       environment: 'staging'
       app_name: 'reservas'
       action: 'scale'
       replicas: ${{ github.event.inputs.replicas }}
-      hpaPath: 'api-hpa.hpa.minReplicas'
+      hpaPath: 'api.hpa.minReplicas'
     secrets:
       account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
       account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}

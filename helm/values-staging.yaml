@@ -28,7 +28,7 @@ api:
   containerPort: 8001
   healthcheckPath: /health
   hpa:
-    minReplicas: 2
+    minReplicas: 3
     maxReplicas: 4
 
   IngressRoute:

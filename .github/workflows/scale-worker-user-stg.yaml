@@ -1,0 +1,26 @@
+name: Scale Staging Api
+on:
+  workflow_dispatch:
+    inputs:
+      replicas:
+        description: 'Número de réplicas (ex: 2 para ambiente normal ou 6 para alta disponibilidade)'
+        required: true
+        default: '2'
+jobs:
+  scale-app:
+    name: Scale Application Deployment
+    permissions:
+      contents: read
+      id-token: write
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/app-eks-management.yaml@main
+    with:
+      environment: 'staging'
+      app_name: 'reservas'
+      action: 'scale'
+      replicas: ${{ github.event.inputs.replicas }}
+      hpaPath: 'workerUser.hpa.minReplicas'
+      deployName: 'worker-user-seazone-reservas'
+    secrets:
+      account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
+      account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
+      deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}

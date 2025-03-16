@@ -1,4 +1,4 @@
-name: Scale Staging Api
+name: Scale Staging Worker
 on:
   workflow_dispatch:
     inputs:

@@ -1,6 +1,6 @@
 global:
   environment: staging
- 
+
   rollingUpdate:
     maxSurge: 25%
     maxUnavailable: 25%
@@ -21,7 +21,7 @@ api:
   requests:
     cpu: 500m
     memory: 1G
-   
+
   limits:
     cpu: 700m
     memory: 2G
@@ -42,7 +42,7 @@ workerUser:
   requests:
     cpu: 500m
     memory: 1G
-   
+
   limits:
     cpu: 700m
     memory: 2G
@@ -58,7 +58,7 @@ worker:
   requests:
     cpu: 500m
     memory: 1G
-   
+
   limits:
     cpu: 700m
     memory: 2G
@@ -82,4 +82,4 @@ scheduler:
   healthcheckPath: /health
   hpa:
     minReplicas: 1
-    maxReplicas: 1
+    maxReplicas: 2

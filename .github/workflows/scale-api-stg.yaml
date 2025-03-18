@@ -10,9 +10,9 @@ on:
         options:
         - normal
         - alta
-  # schedule:
-  # # Segunda a sexta às 7h
-  # - cron: '0 10 * * 1-5'
+  schedule:
+  # Segunda a sexta às 7h
+  - cron: '0 10 * * 1-5'
 jobs:
   scale-app:
     name: Scale Application Deployment
@@ -24,7 +24,7 @@ jobs:
       environment: 'staging'
       app_name: 'reservas'
       action: 'scale'
-      replicas: ${{ github.event.inputs.disponibilidade == 'alta' &&  github.event.inputs.API_HIGH_AVAILABILITY || github.event_name == 'schedule' && '2' || '2' }}
+      replicas: ${{ github.event.inputs.disponibilidade == 'alta' &&  '6' || github.event_name == 'schedule' && '2' || '2' }}
       hpa_path: 'api.hpa.minReplicas'
       deploy_name: 'api-seazone-reservas'
     secrets:

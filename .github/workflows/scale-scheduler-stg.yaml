@@ -24,7 +24,7 @@ jobs:
       environment: 'staging'
       app_name: 'reservas'
       action: 'scale'
-      replicas: ${{ github.event.inputs.disponibilidade == 'alta' && github.event.inputs.SCHEDULER_HIGH_AVAILABILITY || github.event_name == 'schedule' && '2' || '2' }}
+      replicas: ${{ github.event.inputs.disponibilidade == 'alta' && '2' || github.event_name == 'schedule' && '1' || '1' }}
       hpa_path: 'scheduler.hpa.minReplicas'
       deploy_name: 'scheduler-seazone-reservas'
     secrets:

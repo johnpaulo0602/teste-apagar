@@ -10,9 +10,9 @@ on:
         options:
         - normal
         - alta
-  schedule:
-  # Segunda a sexta às 7h
-  - cron: '0 10 * * 1-5'
+  # schedule:
+  # # Segunda a sexta às 7h
+  # - cron: '0 10 * * 1-5'
 jobs:
   scale-app:
     name: Scale Application Deployment

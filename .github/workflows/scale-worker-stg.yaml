@@ -18,8 +18,8 @@ jobs:
       app_name: 'reservas'
       action: 'scale'
       replicas: ${{ github.event.inputs.replicas }}
-      hpaPath: 'worker.hpa.minReplicas'
-      deployName: 'worker-seazone-reservas'
+      hpa_path: 'worker.hpa.minReplicas'
+      deploy_name: 'worker-seazone-reservas'
     secrets:
       account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
       account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}

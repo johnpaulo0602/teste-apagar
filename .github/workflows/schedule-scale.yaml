@@ -1,0 +1,74 @@
+name: Scheduled Scale Down
+on:
+  schedule:
+  - cron: "0 22 * * 1-5" # 19:00 BRT (22:00 UTC) de segunda a sexta
+  workflow_dispatch:
+jobs:
+  scale-down-api:
+    name: Scale Down Api
+    permissions:
+      contents: read
+      id-token: write
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/app-eks-management.yaml@main
+    with:
+      environment: 'staging'
+      app_name: 'reservas'
+      action: 'scale_to_zero'
+      replicas: '0'
+      deploy_name: 'api-seazone-reservas'
+      hpa_path: 'api.hpa.enabled'
+    secrets:
+      account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
+      account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
+      deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}
+  scale-down-worker:
+    name: Scale Down worker
+    permissions:
+      contents: read
+      id-token: write
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/app-eks-management.yaml@main
+    with:
+      environment: 'staging'
+      app_name: 'reservas'
+      action: 'scale_to_zero'
+      replicas: '0'
+      deploy_name: 'worker-seazone-reservas'
+      hpa_path: 'worker.hpa.enabled'
+    secrets:
+      account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
+      account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
+      deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}
+  scale-down-worker-user:
+    name: Scale Down worker-user
+    permissions:
+      contents: read
+      id-token: write
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/app-eks-management.yaml@main
+    with:
+      environment: 'staging'
+      app_name: 'reservas'
+      action: 'scale_to_zero'
+      replicas: '0'
+      deploy_name: 'worker-user-seazone-reservas'
+      hpa_path: 'workerUser.hpa.enabled'
+    secrets:
+      account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
+      account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
+      deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}
+  scale-down-scheduler:
+    name: Scale Down scheduler
+    permissions:
+      contents: read
+      id-token: write
+    uses: seazone-tech/governanca-workflows-template/.github/workflows/app-eks-management.yaml@main
+    with:
+      environment: 'staging'
+      app_name: 'reservas'
+      action: 'scale_to_zero'
+      replicas: '0'
+      deploy_name: 'scheduler-seazone-reservas'
+      hpa_path: 'scheduler.hpa.enabled'
+    secrets:
+      account_region: ${{ secrets.AWS_STAGING_ACCOUNT_REGION }}
+      account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
+      deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}

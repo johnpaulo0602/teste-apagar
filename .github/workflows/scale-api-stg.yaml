@@ -1,11 +1,18 @@
-name: Scale Staging Api
+name: Scale Staging API
 on:
   workflow_dispatch:
     inputs:
-      replicas:
-        description: 'Número de réplicas (ex: 2 para ambiente normal ou 6 para alta disponibilidade)'
+      disponibilidade:
+        description: 'Tipo de disponibilidade'
         required: true
-        default: '2'
+        default: 'normal'
+        type: choice
+        options:
+        - normal
+        - alta
+  schedule:
+  # Segunda a sexta às 7h
+  - cron: '0 10 * * 1-5'
 jobs:
   scale-app:
     name: Scale Application Deployment
@@ -17,7 +24,7 @@ jobs:
       environment: 'staging'
       app_name: 'reservas'
       action: 'scale'
-      replicas: ${{ github.event.inputs.replicas }}
+      replicas: ${{ github.event.inputs.disponibilidade == 'alta' && '6' || github.event_name == 'schedule' && '2' || '2' }}
       hpa_path: 'api.hpa.minReplicas'
       deploy_name: 'api-seazone-reservas'
     secrets:

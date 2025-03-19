@@ -22,6 +22,7 @@ jobs:
       account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
       deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}
   scale-down-worker:
+    needs: scale-down-api
     name: Scale Down worker
     permissions:
       contents: read
@@ -39,6 +40,7 @@ jobs:
       account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
       deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}
   scale-down-worker-user:
+    needs: [ scale-down-api, scale-down-worker ]
     name: Scale Down worker-user
     permissions:
       contents: read
@@ -56,6 +58,7 @@ jobs:
       account_id: ${{ secrets.AWS_STAGING_ACCOUNT_ID }}
       deployment_role: ${{ secrets.AWS_STAGING_DEPLOYMENT_ROLE }}
   scale-down-scheduler:
+    needs: [ scale-down-api, scale-down-worker, scale-down-worker-user ]
     name: Scale Down scheduler
     permissions:
       contents: read

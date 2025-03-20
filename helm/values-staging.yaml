@@ -30,6 +30,7 @@ api:
   hpa:
     minReplicas: 3
     maxReplicas: 6
+    enabled: true
 
   IngressRoute:
     enable: true
@@ -51,6 +52,7 @@ workerUser:
   hpa:
     minReplicas: 2
     maxReplicas: 4
+    enabled: true
 
 worker:
   name: worker-seazone-reservas
@@ -67,6 +69,7 @@ worker:
   hpa:
     minReplicas: 2
     maxReplicas: 3
+    enabled: true
 
 scheduler:
   name: scheduler-seazone-reservas
@@ -83,3 +86,4 @@ scheduler:
   hpa:
     minReplicas: 1
     maxReplicas: 2
+    enabled: true

@@ -32,6 +32,10 @@ provider "aws" {
   region = "us-west-2"
 }
 
+# provider "cloudflare" {
+#   api_token = "4z-fNf5VxAqZ1D4kbSgHW0eXz0nOr_DlH5tSKK"
+# }
+
 provider "cloudflare" {
-  api_token = "XHxPG1ryBTCMWVbvdDElwDv3aWs8XaMT_3OKmCjV"
+  api_token = "4z-fNf5VxAqZ1D4kbSgHW0eXz0nOr_DlH5tSKK4a"
 }
